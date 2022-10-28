@@ -1,6 +1,15 @@
 {
   "name": "get-fastest-rpc",
   "version": "0.0.1",
+  "description": "This is RPC pinger for ETH or Fork.",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "get-fastest-rpc",
+    "ping-rpc",
+    "rpc"
+  ],
   "main": "dist/esm/get-fastest-rpc.js",
   "types": "dist/types/get-fastest-rpc.d.ts",
   "scripts": {
@@ -19,6 +28,10 @@
     "dist",
     "src"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codev911/get-fastest-rpc.git"
+  },
   "exports": {
     "import": "./dist/esm/get-fastest-rpc.js",
     "require": "./dist/cjs/get-fastest-rpc.js",
