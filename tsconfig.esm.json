@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "ES2020",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "outDir": "dist/esm",
+    "moduleResolution": "Node",
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "dist/types"
+  },
+  "files": ["src/get-fastest-rpc.js"],
+  "include": ["src/*"],
+  "exclude": ["node_modules"]
+}
