@@ -1,4 +1,4 @@
-const { testAllRpc } = require('get-fastest-rpc');
+const { testAllRpc, testRpc } = require('get-fastest-rpc');
 
 // const rpc = [
 //     "https://data-seed-prebsc-1-s1.binance.org:8545/",
@@ -20,6 +20,7 @@ const rpc = [
 
 async function test(){
     console.log(await testAllRpc(rpc))
+    console.log(await testRpc(rpc[0]))
 }
 
 test()
