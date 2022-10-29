@@ -13,6 +13,7 @@ async function test(){
     console.log("example rpcs : ", rpc)
     console.log("test all rpcs : ", await testAllRpc(rpc))
     console.log("test rpcs index 0 : ", await testRpc(rpc[0]))
+    console.log("test rpcs index 0 and update timeout to 500ms : ", await testRpc(rpc[0], 500))
     console.log("best from all rpcs : ", await getBestRpc(rpc))
     console.log("test all rpcs by chain id 1 (ethereum) : ", await testAllRpcByChainId(1))
     console.log("best from all rpcs by chain id 1 (ethereum)  : ", await getBestRpcByChainId(1))
