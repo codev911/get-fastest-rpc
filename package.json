@@ -1,6 +1,6 @@
 {
   "name": "get-fastest-rpc",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This is RPC tester and get best RPC for ETH or Fork.",
   "directories": {
     "test": "test"
@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "@types/node": "^18.11.7",
     "axios": "^1.1.3",
     "tsc-silent": "^1.2.2",
     "typescript": "^4.8.4"

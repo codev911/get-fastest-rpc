@@ -1,17 +1,18 @@
-const axios = require('axios');
-const chainRpcs = require('./chainRpcs').default;
+import axios from "axios";
 
-export const getBestRpcByChainId = async (chainId, rto) => {
-    const alive = [];
+const chainRpcs = require('../chainRpcs').default;
+
+export const getBestRpcByChainId = async (chainId: number, ...rto: number[]): Promise<any> => {
+    const alive: any[] = [];
     const listrpc = chainRpcs[chainId]?.rpcs;
-    const timeout = 3000;
+    let timeout = 3000;
 
     if(chainId === undefined){
         throw "Please fill chain id";
     }
 
-    if(rto !== undefined){
-        timeout = rto;
+    if(rto.length === 1){
+        timeout = rto[0];
     }
 
     if(listrpc.length === 0){
@@ -19,7 +20,7 @@ export const getBestRpcByChainId = async (chainId, rto) => {
     }
 
     const getAlive = await testAllRpc(listrpc, timeout);
-    getAlive.forEach(result => {
+    getAlive.forEach((result: any) => {
         if(result?.ms !== "timeout"){
             alive.push(result);
         }
@@ -33,24 +34,24 @@ export const getBestRpcByChainId = async (chainId, rto) => {
     }
 }
 
-export const testAllRpcByChainId = async (chainId, rto) => {
-    const run = [];
+export const testAllRpcByChainId = async (chainId: number, ...rto: number[]): Promise<any> => {
+    const run: any[] = [];
     const listrpc = chainRpcs[chainId]?.rpcs;
-    const timeout = 3000;
+    let timeout = 3000;
 
     if(chainId === undefined){
         throw "Please fill chain id";
     }
 
-    if(rto !== undefined){
-        timeout = rto;
+    if(rto.length === 1){
+        timeout = rto[0];
     }
 
     if(listrpc.length === 0){
         throw "unsupported chain id, please use `getBestRpc`";
     }
 
-    listrpc.forEach(rpc => {
+    listrpc.forEach((rpc: string) => {
         run.push(testRpc(rpc, timeout));
     });
 
@@ -58,16 +59,16 @@ export const testAllRpcByChainId = async (chainId, rto) => {
     return value;
 }
 
-export const getBestRpc = async (listrpc, rto) => {
-    const alive = [];
-    const timeout = 3000;
+export const getBestRpc = async (listrpc: string[], ...rto: number[]): Promise<string> => {
+    const alive: any[] = [];
+    let timeout = 3000;
 
-    if(rto !== undefined){
-        timeout = rto;
+    if(rto.length === 1){
+        timeout = rto[0];
     }
 
     const getAlive = await testAllRpc(listrpc, timeout);
-    getAlive.forEach(result => {
+    getAlive.forEach((result: any) => {
         if(result?.ms !== "timeout"){
             alive.push(result);
         }
@@ -81,14 +82,14 @@ export const getBestRpc = async (listrpc, rto) => {
     }
 }
 
-export const testAllRpc = async (listrpc, rto) => {
-    const run = [];
-    const timeout = 3000;
+export const testAllRpc = async (listrpc: string[], ...rto: number[]): Promise<any> => {
+    const run: any[] = [];
+    let timeout = 3000;
 
-    if(rto !== undefined){
-        timeout = rto;
+    if(rto.length === 1){
+        timeout = rto[0];
     }
-
+    
     listrpc.forEach(rpc => {
         run.push(testRpc(rpc, timeout));
     });
@@ -97,11 +98,11 @@ export const testAllRpc = async (listrpc, rto) => {
     return value;
 }
 
-export const testRpc = async (rpc, rto) => {
-    const timeout = 3000;
+export const testRpc = async (rpc: string, ...rto:number[]): Promise<any> => {
+    let timeout = 3000;
 
-    if(rto !== undefined){
-        timeout = rto;
+    if(rto.length === 1){
+        timeout = rto[0];
     }
 
     if(rpc === undefined){
@@ -116,10 +117,10 @@ export const testRpc = async (rpc, rto) => {
     }
 }
 
-const getRpcSpeed = async (rpc, rto) => {
+const getRpcSpeed = async (rpc: string, ...rto: number[]): Promise<any> => {
     try{
         const dateStart = new Date().getTime();
-        const { status, data } = await axios.post(
+        await axios.post(
             rpc,
             {
                 "method":"eth_blockNumber",
@@ -130,36 +131,37 @@ const getRpcSpeed = async (rpc, rto) => {
                 headers: {
                     Accept: 'application/json',
                 },
-                timeout: rto
+                timeout: rto[0]
             }
         ).catch(() => {
             return "timeout";
+        }).then((res: any) => {
+            const dateEnd = new Date().getTime();
+
+            if(res?.status !== 200){
+                return "timeout";
+            }
+
+            if(res?.result === undefined){
+                return "timeout";
+            }
+
+            return dateEnd - dateStart;
         });
-        const dateEnd = new Date().getTime();
-
-        if(await status !== 200){
-            return "timeout";
-        }
-
-        if(await data?.result === undefined){
-            return "timeout";
-        }
-
-        return dateEnd - dateStart;
     }catch{
         throw "timeout";
     }
 }
 
-const returnTimeout = (rpc) => {
+const returnTimeout = (rpc: string) => {
     return {rpc: rpc, ms: "timeout"};
 }
 
-const returnSuccess = (rpc, ms) => {
+const returnSuccess = (rpc: string, ms: number) => {
     return {rpc: rpc, ms: ms};
 }
 
-const sortByKey = (array, key) => {
+const sortByKey = (array: any[], key: string) => {
     return array.sort((a, b) => {
         let x = a[key]; let y = b[key];
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
