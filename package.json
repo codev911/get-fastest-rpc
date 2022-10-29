@@ -1,6 +1,6 @@
 {
   "name": "get-fastest-rpc",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "This is RPC tester and get best RPC for ETH or Fork.",
   "directories": {
     "test": "test"
