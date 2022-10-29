@@ -1,9 +1,24 @@
 const axios = require('axios');
+const chainRpcs = require('./chainRpcs').default;
 
-export const bestRpc = async (listrpc, rto) => {
+export const getBestRpcByChainId = async (chainId, rto) => {
     const alive = [];
+    const listrpc = chainRpcs[chainId]?.rpcs;
+    const timeout = 3000;
 
-    const getAlive = await testAllRpc(listrpc, rto);
+    if(chainId === undefined){
+        throw "Please fill chain id";
+    }
+
+    if(rto !== undefined){
+        timeout = rto;
+    }
+
+    if(listrpc.length === 0){
+        throw "unsupported chain id, please use `getBestRpc`";
+    }
+
+    const getAlive = await testAllRpc(listrpc, timeout);
     getAlive.forEach(result => {
         if(result?.ms !== "timeout"){
             alive.push(result);
@@ -14,17 +29,68 @@ export const bestRpc = async (listrpc, rto) => {
         throw "All rpc timeout, please check your internet connection or check your rpc url.";
     }else{
         const newAlive = sortByKey(alive, 'ms');
+        return newAlive[0].rpc;
+    }
+}
 
-        console.log(newAlive)
+export const testAllRpcByChainId = async (chainId, rto) => {
+    const run = [];
+    const listrpc = chainRpcs[chainId]?.rpcs;
+    const timeout = 3000;
+
+    if(chainId === undefined){
+        throw "Please fill chain id";
+    }
+
+    if(rto !== undefined){
+        timeout = rto;
+    }
+
+    if(listrpc.length === 0){
+        throw "unsupported chain id, please use `getBestRpc`";
+    }
+
+    listrpc.forEach(rpc => {
+        run.push(testRpc(rpc, timeout));
+    });
+
+    const value = await Promise.all(run);
+    return value;
+}
+
+export const getBestRpc = async (listrpc, rto) => {
+    const alive = [];
+    const timeout = 3000;
+
+    if(rto !== undefined){
+        timeout = rto;
+    }
+
+    const getAlive = await testAllRpc(listrpc, timeout);
+    getAlive.forEach(result => {
+        if(result?.ms !== "timeout"){
+            alive.push(result);
+        }
+    });
+
+    if(alive.length === 0){
+        throw "All rpc timeout, please check your internet connection or check your rpc url.";
+    }else{
+        const newAlive = sortByKey(alive, 'ms');
         return newAlive[0].rpc;
     }
 }
 
 export const testAllRpc = async (listrpc, rto) => {
     const run = [];
+    const timeout = 3000;
+
+    if(rto !== undefined){
+        timeout = rto;
+    }
 
     listrpc.forEach(rpc => {
-        run.push(testRpc(rpc, rto));
+        run.push(testRpc(rpc, timeout));
     });
 
     const value = await Promise.all(run);
@@ -32,8 +98,18 @@ export const testAllRpc = async (listrpc, rto) => {
 }
 
 export const testRpc = async (rpc, rto) => {
+    const timeout = 3000;
+
+    if(rto !== undefined){
+        timeout = rto;
+    }
+
+    if(rpc === undefined){
+        throw "Please fill rpc url";
+    }
+    
     try{
-        const ms = await getRpcSpeed(rpc,rto);
+        const ms = await getRpcSpeed(rpc,timeout);
         return returnSuccess(rpc, ms);
     }catch{
         return returnTimeout(rpc);

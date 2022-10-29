@@ -36,15 +36,87 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.testRpc = exports.testAllRpc = exports.bestRpc = void 0;
+exports.testRpc = exports.testAllRpc = exports.getBestRpc = exports.testAllRpcByChainId = exports.getBestRpcByChainId = void 0;
 var axios = require('axios');
-var bestRpc = function (listrpc, rto) { return __awaiter(void 0, void 0, void 0, function () {
-    var alive, getAlive, newAlive;
+var chainRpcs = require('./chainRpcs')["default"];
+var getBestRpcByChainId = function (chainId, rto) { return __awaiter(void 0, void 0, void 0, function () {
+    var alive, listrpc, timeout, getAlive, newAlive;
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                alive = [];
+                listrpc = (_a = chainRpcs[chainId]) === null || _a === void 0 ? void 0 : _a.rpcs;
+                timeout = 3000;
+                if (chainId === undefined) {
+                    throw "Please fill chain id";
+                }
+                if (rto !== undefined) {
+                    timeout = rto;
+                }
+                if (listrpc.length === 0) {
+                    throw "unsupported chain id, please use `getBestRpc`";
+                }
+                return [4, (0, exports.testAllRpc)(listrpc, timeout)];
+            case 1:
+                getAlive = _b.sent();
+                getAlive.forEach(function (result) {
+                    if ((result === null || result === void 0 ? void 0 : result.ms) !== "timeout") {
+                        alive.push(result);
+                    }
+                });
+                if (alive.length === 0) {
+                    throw "All rpc timeout, please check your internet connection or check your rpc url.";
+                }
+                else {
+                    newAlive = sortByKey(alive, 'ms');
+                    return [2, newAlive[0].rpc];
+                }
+                return [2];
+        }
+    });
+}); };
+exports.getBestRpcByChainId = getBestRpcByChainId;
+var testAllRpcByChainId = function (chainId, rto) { return __awaiter(void 0, void 0, void 0, function () {
+    var run, listrpc, timeout, value;
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                run = [];
+                listrpc = (_a = chainRpcs[chainId]) === null || _a === void 0 ? void 0 : _a.rpcs;
+                timeout = 3000;
+                if (chainId === undefined) {
+                    throw "Please fill chain id";
+                }
+                if (rto !== undefined) {
+                    timeout = rto;
+                }
+                if (listrpc.length === 0) {
+                    throw "unsupported chain id, please use `getBestRpc`";
+                }
+                listrpc.forEach(function (rpc) {
+                    run.push((0, exports.testRpc)(rpc, timeout));
+                });
+                return [4, Promise.all(run)];
+            case 1:
+                value = _b.sent();
+                return [2, value];
+        }
+    });
+}); };
+exports.testAllRpcByChainId = testAllRpcByChainId;
+var getBestRpc = function (listrpc, rto) { return __awaiter(void 0, void 0, void 0, function () {
+    var alive, timeout, getAlive, newAlive;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 alive = [];
-                return [4, (0, exports.testAllRpc)(listrpc, rto)];
+                timeout = 3000;
+                if (rto !== undefined) {
+                    timeout = rto;
+                }
+                return [4, (0, exports.testAllRpc)(listrpc, timeout)];
             case 1:
                 getAlive = _a.sent();
                 getAlive.forEach(function (result) {
@@ -57,22 +129,25 @@ var bestRpc = function (listrpc, rto) { return __awaiter(void 0, void 0, void 0,
                 }
                 else {
                     newAlive = sortByKey(alive, 'ms');
-                    console.log(newAlive);
                     return [2, newAlive[0].rpc];
                 }
                 return [2];
         }
     });
 }); };
-exports.bestRpc = bestRpc;
+exports.getBestRpc = getBestRpc;
 var testAllRpc = function (listrpc, rto) { return __awaiter(void 0, void 0, void 0, function () {
-    var run, value;
+    var run, timeout, value;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 run = [];
+                timeout = 3000;
+                if (rto !== undefined) {
+                    timeout = rto;
+                }
                 listrpc.forEach(function (rpc) {
-                    run.push((0, exports.testRpc)(rpc, rto));
+                    run.push((0, exports.testRpc)(rpc, timeout));
                 });
                 return [4, Promise.all(run)];
             case 1:
@@ -83,19 +158,28 @@ var testAllRpc = function (listrpc, rto) { return __awaiter(void 0, void 0, void
 }); };
 exports.testAllRpc = testAllRpc;
 var testRpc = function (rpc, rto) { return __awaiter(void 0, void 0, void 0, function () {
-    var ms, _a;
+    var timeout, ms, _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 2, , 3]);
-                return [4, getRpcSpeed(rpc, rto)];
+                timeout = 3000;
+                if (rto !== undefined) {
+                    timeout = rto;
+                }
+                if (rpc === undefined) {
+                    throw "Please fill rpc url";
+                }
+                _b.label = 1;
             case 1:
+                _b.trys.push([1, 3, , 4]);
+                return [4, getRpcSpeed(rpc, timeout)];
+            case 2:
                 ms = _b.sent();
                 return [2, returnSuccess(rpc, ms)];
-            case 2:
+            case 3:
                 _a = _b.sent();
                 return [2, returnTimeout(rpc)];
-            case 3: return [2];
+            case 4: return [2];
         }
     });
 }); };

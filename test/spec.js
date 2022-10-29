@@ -1,4 +1,4 @@
-const { testAllRpc, testRpc, bestRpc } = require('get-fastest-rpc');
+const { testAllRpc, testRpc, getBestRpc, testAllRpcByChainId, getBestRpcByChainId } = require('get-fastest-rpc');
 
 const rpc = [
     "https://polygon-testnet.public.blastapi.io",
@@ -13,7 +13,9 @@ async function test(){
     console.log("example rpcs : ", rpc)
     console.log("test all rpcs : ", await testAllRpc(rpc))
     console.log("test rpcs index 0 : ", await testRpc(rpc[0]))
-    console.log("best from all rpcs : ", await bestRpc(rpc))
+    console.log("best from all rpcs : ", await getBestRpc(rpc))
+    console.log("test all rpcs by chain id 1 (ethereum) : ", await testAllRpcByChainId(1))
+    console.log("best from all rpcs by chain id 1 (ethereum)  : ", await getBestRpcByChainId(1))
 }
 
 test()
