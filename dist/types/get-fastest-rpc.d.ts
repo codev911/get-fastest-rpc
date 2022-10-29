@@ -1,9 +1,9 @@
-export function getBestRpcByChainId(chainId: any, rto: any): Promise<any>;
-export function testAllRpcByChainId(chainId: any, rto: any): Promise<any>;
-export function getBestRpc(listrpc: any, rto: any): Promise<any>;
-export function testAllRpc(listrpc: any, rto: any): Promise<any>;
-export function testRpc(rpc: any, rto: any): Promise<{
-    rpc: any;
-    ms: any;
+export function getBestRpcByChainId(chainId: number, ...rto: number): Promise<string>;
+export function testAllRpcByChainId(chainId: number, ...rto: number): Promise<any>;
+export function getBestRpc(listrpc: any, ...rto: number): Promise<string>;
+export function testAllRpc(listrpc: any, ...rto: number): Promise<any>;
+export function testRpc(rpc: string, ...rto: number): Promise<{
+    rpc: string;
+    ms: number;
 }>;
 //# sourceMappingURL=get-fastest-rpc.d.ts.map
