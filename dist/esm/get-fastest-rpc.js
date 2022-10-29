@@ -35,6 +35,32 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var axios = require('axios');
+export var bestRpc = function (listrpc, rto) { return __awaiter(void 0, void 0, void 0, function () {
+    var alive, getAlive, newAlive;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                alive = [];
+                return [4, testAllRpc(listrpc, rto)];
+            case 1:
+                getAlive = _a.sent();
+                getAlive.forEach(function (result) {
+                    if ((result === null || result === void 0 ? void 0 : result.ms) !== "timeout") {
+                        alive.push(result);
+                    }
+                });
+                if (alive.length === 0) {
+                    throw "All rpc timeout, please check your internet connection or check your rpc url.";
+                }
+                else {
+                    newAlive = sortByKey(alive, 'ms');
+                    console.log(newAlive);
+                    return [2, newAlive[0].rpc];
+                }
+                return [2];
+        }
+    });
+}); };
 export var testAllRpc = function (listrpc, rto) { return __awaiter(void 0, void 0, void 0, function () {
     var run, value;
     return __generator(this, function (_a) {
@@ -114,5 +140,12 @@ var returnTimeout = function (rpc) {
 };
 var returnSuccess = function (rpc, ms) {
     return { rpc: rpc, ms: ms };
+};
+var sortByKey = function (array, key) {
+    return array.sort(function (a, b) {
+        var x = a[key];
+        var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
 };
 //# sourceMappingURL=get-fastest-rpc.js.map

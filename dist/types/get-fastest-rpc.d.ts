@@ -1,3 +1,4 @@
+export function bestRpc(listrpc: any, rto: any): Promise<any>;
 export function testAllRpc(listrpc: any, rto: any): Promise<any>;
 export function testRpc(rpc: any, rto: any): Promise<{
     rpc: any;

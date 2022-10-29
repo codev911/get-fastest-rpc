@@ -1,5 +1,25 @@
 const axios = require('axios');
 
+export const bestRpc = async (listrpc, rto) => {
+    const alive = [];
+
+    const getAlive = await testAllRpc(listrpc, rto);
+    getAlive.forEach(result => {
+        if(result?.ms !== "timeout"){
+            alive.push(result);
+        }
+    });
+
+    if(alive.length === 0){
+        throw "All rpc timeout, please check your internet connection or check your rpc url.";
+    }else{
+        const newAlive = sortByKey(alive, 'ms');
+
+        console.log(newAlive)
+        return newAlive[0].rpc;
+    }
+}
+
 export const testAllRpc = async (listrpc, rto) => {
     const run = [];
 
@@ -61,4 +81,11 @@ const returnTimeout = (rpc) => {
 
 const returnSuccess = (rpc, ms) => {
     return {rpc: rpc, ms: ms};
+}
+
+const sortByKey = (array, key) => {
+    return array.sort((a, b) => {
+        let x = a[key]; let y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
 }

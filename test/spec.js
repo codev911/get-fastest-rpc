@@ -1,13 +1,4 @@
-const { testAllRpc, testRpc } = require('get-fastest-rpc');
-
-// const rpc = [
-//     "https://data-seed-prebsc-1-s1.binance.org:8545/",
-//     "https://data-seed-prebsc-2-s1.binance.org:8545/",
-//     "https://data-seed-prebsc-1-s2.binance.org:8545/",
-//     "https://data-seed-prebsc-2-s2.binance.org:8545/",
-//     "https://data-seed-prebsc-1-s3.binance.org:8545/",
-//     "https://data-seed-prebsc-2-s3.binance.org:8545/"
-// ];
+const { testAllRpc, testRpc, bestRpc } = require('get-fastest-rpc');
 
 const rpc = [
     "https://polygon-testnet.public.blastapi.io",
@@ -19,8 +10,10 @@ const rpc = [
 ];
 
 async function test(){
-    console.log(await testAllRpc(rpc))
-    console.log(await testRpc(rpc[0]))
+    console.log("example rpcs : ", rpc)
+    console.log("test all rpcs : ", await testAllRpc(rpc))
+    console.log("test rpcs index 0 : ", await testRpc(rpc[0]))
+    console.log("best from all rpcs : ", await bestRpc(rpc))
 }
 
 test()
