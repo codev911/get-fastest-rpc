@@ -13,6 +13,17 @@ This is RPC tester and get best RPC for ETH or Fork. All chain RPC got from [Cha
 ### A. testRpc
 ```
     import { testRpc } from 'get-fastest-rpc';
-    <!-- // if use commonjs use this
-    const { testRpc } = require('get-fastest-rpc'); -->
+    // if use commonjs use this :
+    // const { testRpc } = require('get-fastest-rpc');
+
+    // example rpc
+    const rpc = "https://rpc-mumbai.maticvigil.com";
+
+    // example function for test
+    async test(){
+        console.log(await testRpc(rpc));
+    }
+
+    // result will be like
+    // { rpc: 'https://rpc-mumbai.maticvigil.com', ms: 234 }
 ```
