@@ -34,8 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var axios = require('axios');
-var chainRpcs = require('./chainRpcs')["default"];
+import axios from "axios";
+var chainRpcs = require('../chainRpcs')["default"];
 export var getBestRpcByChainId = function (chainId, rto) { return __awaiter(void 0, void 0, void 0, function () {
     var alive, listrpc, timeout, getAlive, newAlive;
     var _a;
@@ -177,12 +177,12 @@ export var testRpc = function (rpc, rto) { return __awaiter(void 0, void 0, void
     });
 }); };
 var getRpcSpeed = function (rpc, rto) { return __awaiter(void 0, void 0, void 0, function () {
-    var dateStart, _a, status_1, data, dateEnd, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var dateStart_1, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _c.trys.push([0, 4, , 5]);
-                dateStart = new Date().getTime();
+                _b.trys.push([0, 2, , 3]);
+                dateStart_1 = new Date().getTime();
                 return [4, axios.post(rpc, {
                         "method": "eth_blockNumber",
                         "params": [],
@@ -195,25 +195,23 @@ var getRpcSpeed = function (rpc, rto) { return __awaiter(void 0, void 0, void 0,
                         timeout: rto
                     })["catch"](function () {
                         return "timeout";
+                    }).then(function (res) {
+                        var dateEnd = new Date().getTime();
+                        if ((res === null || res === void 0 ? void 0 : res.status) !== 200) {
+                            return "timeout";
+                        }
+                        if ((res === null || res === void 0 ? void 0 : res.result) === undefined) {
+                            return "timeout";
+                        }
+                        return dateEnd - dateStart_1;
                     })];
             case 1:
-                _a = _c.sent(), status_1 = _a.status, data = _a.data;
-                dateEnd = new Date().getTime();
-                return [4, status_1];
+                _b.sent();
+                return [3, 3];
             case 2:
-                if ((_c.sent()) !== 200) {
-                    return [2, "timeout"];
-                }
-                return [4, (data === null || data === void 0 ? void 0 : data.result)];
-            case 3:
-                if ((_c.sent()) === undefined) {
-                    return [2, "timeout"];
-                }
-                return [2, dateEnd - dateStart];
-            case 4:
-                _b = _c.sent();
+                _a = _b.sent();
                 throw "timeout";
-            case 5: return [2];
+            case 3: return [2];
         }
     });
 }); };

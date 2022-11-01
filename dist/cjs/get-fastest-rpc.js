@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.testRpc = exports.testAllRpc = exports.getBestRpc = exports.testAllRpcByChainId = exports.getBestRpcByChainId = void 0;
 var axios = require('axios');
-var chainRpcs = require('./chainRpcs')["default"];
+var chainRpcs = require('../chainRpcs')["default"];
 var getBestRpcByChainId = function (chainId, rto) { return __awaiter(void 0, void 0, void 0, function () {
     var alive, listrpc, timeout, getAlive, newAlive;
     var _a;
