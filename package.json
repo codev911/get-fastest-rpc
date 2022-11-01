@@ -1,6 +1,6 @@
 {
   "name": "get-fastest-rpc",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "This is RPC tester and get best RPC for ETH or Fork.",
   "directories": {
     "test": "test"
@@ -11,7 +11,7 @@
     "rpc"
   ],
   "main": "dist/esm/get-fastest-rpc.js",
-  "types": "dist/types/get-fastest-rpc.d.ts",
+  "types": "dist/types/esm/get-fastest-rpc.d.ts",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "npx -p typescript tsc-silent --project tsconfig.esm.json & tsc-silent --project tsconfig.cjs.json --suppress @",
