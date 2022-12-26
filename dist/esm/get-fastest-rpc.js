@@ -34,7 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import axios from "axios";
+var axios = require('axios');
 var chainRpcs = require('../chainRpcs')["default"];
 export var getBestRpcByChainId = function (chainId, rto) { return __awaiter(void 0, void 0, void 0, function () {
     var alive, listrpc, timeout, getAlive, newAlive;

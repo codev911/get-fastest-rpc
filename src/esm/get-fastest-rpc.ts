@@ -1,5 +1,4 @@
-import axios from "axios";
-
+const axios = require('axios');
 const chainRpcs = require('../chainRpcs').default;
 
 export const getBestRpcByChainId = async (chainId: number, rto?: number): Promise<any> => {
