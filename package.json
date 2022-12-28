@@ -1,6 +1,6 @@
 {
   "name": "get-fastest-rpc",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "This is RPC tester and get best RPC for ETH or Fork.",
   "directories": {
     "test": "test"
@@ -38,7 +38,6 @@
   },
   "exports": {
     "import": "./dist/esm/get-fastest-rpc.js",
-    "require": "./dist/cjs/get-fastest-rpc.js",
-    "default": "./dist/esm/get-fastest-rpc.js"
+    "require": "./dist/cjs/get-fastest-rpc.js"
   }
 }
