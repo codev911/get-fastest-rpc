@@ -1,6 +1,8 @@
 # get-fastest-rpc
 This is RPC tester and get best RPC for ETH or Fork. All chain RPC got from [Chainlist.org](https://chainlist.org/).
 
+# This library moved to [live-evm-rpc](https://github.com/codev911/live-evm-rpc)
+
 ## Install
 1. Via NPM : `npm i get-fastest-rpc`
 2. Via Yarn : `yarn add get-fastest-rpc`
